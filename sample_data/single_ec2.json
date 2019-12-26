@@ -40,6 +40,49 @@
         "processorFeatures" : "Intel AVX; Intel AVX2; Intel AVX512; Intel Turbo",
         "servicename" : "Amazon Elastic Compute Cloud"
       }
+    },
+    "URMU6JEGG29UNVRF" : {
+      "sku" : "URMU6JEGG29UNVRF",
+      "productFamily" : "Dedicated Host",
+      "attributes" : {
+        "servicecode" : "AmazonEC2",
+        "location" : "Middle East (Bahrain)",
+        "locationType" : "AWS Region",
+        "instanceType" : "r5",
+        "currentGeneration" : "Yes",
+        "instanceFamily" : "Memory optimized",
+        "vcpu" : "96",
+        "physicalProcessor" : "Intel Xeon Platinum 8175 (Skylake)",
+        "clockSpeed" : "3.1 GHz",
+        "memory" : "NA",
+        "storage" : "NA",
+        "networkPerformance" : "NA",
+        "processorArchitecture" : "64-bit",
+        "tenancy" : "Host",
+        "operatingSystem" : "Linux",
+        "licenseModel" : "No License required",
+        "usagetype" : "MES1-HostUsage:r5",
+        "operation" : "RunInstances",
+        "capacitystatus" : "AllocatedHost",
+        "ecu" : "NA",
+        "enhancedNetworkingSupported" : "Yes",
+        "instanceCapacity12xlarge" : "2",
+        "instanceCapacity16xlarge" : "1",
+        "instanceCapacity24xlarge" : "1",
+        "instanceCapacity2xlarge" : "12",
+        "instanceCapacity4xlarge" : "6",
+        "instanceCapacity8xlarge" : "2",
+        "instanceCapacityLarge" : "48",
+        "instanceCapacityXlarge" : "24",
+        "intelAvxAvailable" : "Yes",
+        "intelAvx2Available" : "Yes",
+        "intelTurboAvailable" : "Yes",
+        "normalizationSizeFactor" : "NA",
+        "physicalCores" : "48",
+        "preInstalledSw" : "NA",
+        "processorFeatures" : "Intel AVX; Intel AVX2; Intel AVX512; Intel Turbo",
+        "servicename" : "Amazon Elastic Compute Cloud"
+      }
     }
   }
 }
