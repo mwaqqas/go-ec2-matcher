@@ -1,0 +1,45 @@
+{
+  "formatVersion" : "v1.0",
+  "disclaimer" : "This pricing list is for informational purposes only. All prices are subject to the additional terms included in the pricing pages on http://aws.amazon.com. All Free Tier prices are also subject to the terms included at https://aws.amazon.com/free/",
+  "offerCode" : "AmazonEC2",
+  "version" : "20191216083234",
+  "publicationDate" : "2019-12-16T08:32:34Z",
+  "products" : {
+    "2KRAVDAS8PZKCJGD" : {
+      "sku" : "2KRAVDAS8PZKCJGD",
+      "productFamily" : "Compute Instance",
+      "attributes" : {
+        "servicecode" : "AmazonEC2",
+        "location" : "Middle East (Bahrain)",
+        "locationType" : "AWS Region",
+        "instanceType" : "m5d.2xlarge",
+        "currentGeneration" : "Yes",
+        "instanceFamily" : "General purpose",
+        "vcpu" : "8",
+        "physicalProcessor" : "Intel Xeon Platinum 8175 (Skylake)",
+        "clockSpeed" : "2.5 GHz",
+        "memory" : "32 GiB",
+        "storage" : "1 x 300 NVMe SSD",
+        "networkPerformance" : "Up to 10 Gigabit",
+        "processorArchitecture" : "64-bit",
+        "tenancy" : "Dedicated",
+        "operatingSystem" : "Windows",
+        "licenseModel" : "No License required",
+        "usagetype" : "MES1-DedicatedRes:m5d.2xlarge",
+        "operation" : "RunInstances:0202",
+        "capacitystatus" : "AllocatedCapacityReservation",
+        "dedicatedEbsThroughput" : "Up to 2120 Mbps",
+        "ecu" : "37",
+        "enhancedNetworkingSupported" : "Yes",
+        "instancesku" : "YNJF5TWBJR47R7XP",
+        "intelAvxAvailable" : "Yes",
+        "intelAvx2Available" : "Yes",
+        "intelTurboAvailable" : "Yes",
+        "normalizationSizeFactor" : "16",
+        "preInstalledSw" : "SQL Web",
+        "processorFeatures" : "Intel AVX; Intel AVX2; Intel AVX512; Intel Turbo",
+        "servicename" : "Amazon Elastic Compute Cloud"
+      }
+    }
+  }
+}

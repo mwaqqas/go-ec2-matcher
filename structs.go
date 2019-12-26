@@ -27,3 +27,56 @@ type regionIndex struct {
 	PublicationDate string            `json:"publicationDate"`
 	Regions         map[string]region `json:"regions"`
 }
+
+type ec2Attributes struct {
+	Servicecode                 string `json:"servicecode"`
+	Location                    string `json:"location"`
+	LocationType                string `json:"locationType"`
+	InstanceType                string `json:"instanceType"`
+	CurrentGeneration           string `json:"currentGeneration"`
+	InstanceFamily              string `json:"instanceFamily"`
+	Vcpu                        string `json:"vcpu"`
+	PhysicalProcessor           string `json:"physicalProcessor"`
+	ClockSpeed                  string `json:"clockSpeed"`
+	Memory                      RAM    `json:"memory"`
+	Storage                     string `json:"storage"`
+	NetworkPerformance          string `json:"networkPerformance"`
+	ProcessorArchitecture       string `json:"processorArchitecture"`
+	Tenancy                     string `json:"tenancy"`
+	OperatingSystem             string `json:"operatingSystem"`
+	LicenseModel                string `json:"licenseModel"`
+	Usagetype                   string `json:"usagetype"`
+	Operation                   string `json:"operation"`
+	Capacitystatus              string `json:"capacitystatus"`
+	DedicatedEbsThroughput      string `json:"dedicatedEbsThroughput"`
+	Ecu                         string `json:"ecu"`
+	EnhancedNetworkingSupported string `json:"enhancedNetworkingSupported"`
+	Instancesku                 string `json:"instancesku"`
+	IntelAvxAvailable           string `json:"intelAvxAvailable"`
+	IntelAvx2Available          string `json:"intelAvx2Available"`
+	IntelTurboAvailable         string `json:"intelTurboAvailable"`
+	NormalizationSizeFactor     string `json:"normalizationSizeFactor"`
+	PreInstalledSw              string `json:"preInstalledSw"`
+	ProcessorFeatures           string `json:"processorFeatures"`
+	Servicename                 string `json:"servicename"`
+}
+
+// RAM is
+type RAM struct {
+	value float64
+	unit  string
+}
+
+type ec2 struct {
+	Sku           string        `json:"sku"`
+	ProductFamily string        `json:"productFamily"`
+	Attributes    ec2Attributes `json:"attributes"`
+}
+
+type ec2ProdIndex struct {
+	FormatVersion   string         `json:"formatVersion"`
+	Disclaimer      string         `json:"disclaimer"`
+	PublicationDate string         `json:"publicationDate"`
+	Products        map[string]ec2 `json:"products"`
+	Terms           interface{}    `json:"terms"`
+}

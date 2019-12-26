@@ -27,3 +27,19 @@ func extractEC2Offer(file string) (o offer, err error) {
 	}
 	return
 }
+
+func extractEC2Product(file string) (index ec2ProdIndex, err error) {
+	f, err := ioutil.ReadFile(file)
+	if err != nil {
+		fmt.Println(err)
+		fmt.Println("Read file Error")
+		return
+	}
+	err = json.Unmarshal([]byte(f), &index)
+	if err != nil {
+		fmt.Println(err)
+		fmt.Println("Unmarshall Error")
+		return
+	}
+	return
+}
