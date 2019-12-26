@@ -23,7 +23,7 @@ func main() {
 	// downloadFile(EC2RegionIndexURL, regionIndexPath, false)
 	// downloadEC2RegionOffers(regionIndexPath)
 	// index, err := extractEC2Product("sample_data/me-south-1_ec2.json")
-	index, err := extractEC2Product("data/ec2_offer_me-south-1.json")
+	index, err := extractEC2Product("sample_data/ec2_offer_me-south-1.json")
 	if err != nil {
 		fmt.Println(err)
 		return
