@@ -51,7 +51,7 @@ type ec2Attributes struct {
 	DedicatedEbsThroughput      string `json:"dedicatedEbsThroughput"`
 	Ecu                         string `json:"ecu"`
 	EnhancedNetworkingSupported string `json:"enhancedNetworkingSupported"`
-	Instancesku                 string `json:"instancesku"`
+	Instancesku                 string `json:"instancesku,omitempty"`
 	IntelAvxAvailable           string `json:"intelAvxAvailable"`
 	IntelAvx2Available          string `json:"intelAvx2Available"`
 	IntelTurboAvailable         string `json:"intelTurboAvailable"`
@@ -78,5 +78,36 @@ type ec2ProdIndex struct {
 	Disclaimer      string         `json:"disclaimer"`
 	PublicationDate string         `json:"publicationDate"`
 	Products        map[string]ec2 `json:"products"`
-	Terms           interface{}    `json:"terms"`
+	Terms           terms          `json:"terms"`
+}
+
+type terms struct {
+	OnDemand map[string]map[string]offerTerm `json:"OnDemand"`
+	Reserved map[string]map[string]offerTerm `json:"Reserved,omitempty"`
+}
+
+type offerTerm struct {
+	OfferTermCode   string                     `json:"offerTermCode"`
+	Sku             string                     `json:"sku"`
+	EffectiveDate   string                     `json:"effectiveDate"`
+	PriceDimensions map[string]priceDimensions `json:"priceDimensions"`
+}
+type pricePerUnit struct {
+	USD string
+}
+
+type priceDimensions struct {
+	RateCode       string         `json:"rateCode"`
+	Description    string         `json:"description"`
+	BeginRange     string         `json:"beginRange"`
+	Unit           string         `json:"unit"`
+	PricePerUnit   pricePerUnit   `json:"pricePerUnit"`
+	AppliesTo      []string       `json:"appliesTo"`
+	TermAttributes termAttributes `json:"termAttributes"`
+}
+
+type termAttributes struct {
+	LeaseContractLength string `json:"LeaseContractLength"`
+	OfferingClass       string `json:"OfferingClass"`
+	PurchaseOption      string `json:"PurchaseOption"`
 }
