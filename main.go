@@ -23,21 +23,44 @@ func main() {
 	// downloadFile(EC2RegionIndexURL, regionIndexPath, false)
 	// downloadEC2RegionOffers(regionIndexPath)
 	// index, err := extractEC2Product("sample_data/me-south-1_ec2.json")
-	index, err := extractEC2Product("sample_data/ec2_offer_me-south-1.json")
+	index, err := extractEC2Product("sample_data/bh-c5.xlarge.json")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	for _, v := range index.Products {
-		fmt.Printf(
-			"{InstanceType: %s, vCPU: %s, RAM: %.2f %s, OS: %s, InstalledSW: %s, Bandwidth: %s}\n",
-			v.Attributes.InstanceType,
-			v.Attributes.Vcpu,
-			v.Attributes.Memory.value,
-			v.Attributes.Memory.unit,
-			v.Attributes.OperatingSystem,
-			v.Attributes.PreInstalledSw,
-			v.Attributes.NetworkPerformance,
-		)
+	for _, prodV := range index.Products {
+		var date string
+		var pd map[string]priceDimensions
+		for k, v := range index.Terms.OnDemand {
+			if k == prodV.Sku {
+				refKey := prodV.Sku + ".JRTCKXETXF"
+				date = v[refKey].EffectiveDate
+				pd = v[refKey].PriceDimensions
+				for _, v := range pd {
+					fmt.Printf(
+						"{SKU: %s, InstanceType: %s, vCPU: %s, RAM: %.2f %s,  Bandwidth: %s, OS: %s, InstalledSW: %s, EffectiveDate: %s}\n",
+						prodV.Sku,
+						prodV.Attributes.InstanceType,
+						prodV.Attributes.Vcpu,
+						prodV.Attributes.Memory.value,
+						prodV.Attributes.Memory.unit,
+						prodV.Attributes.NetworkPerformance,
+						prodV.Attributes.OperatingSystem,
+						prodV.Attributes.PreInstalledSw,
+						date,
+					)
+					fmt.Printf(
+						"Description: %s, Price: %s, LeaseContractLength: %s, OfferingClass: %s, PurchaseOption: %s\n",
+						v.Description,
+						v.PricePerUnit.USD,
+						v.TermAttributes.LeaseContractLength,
+						v.TermAttributes.OfferingClass,
+						v.TermAttributes.PurchaseOption,
+					)
+				}
+			}
+		}
+		fmt.Println("-------------------------")
 	}
+
 }
