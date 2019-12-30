@@ -38,7 +38,7 @@ func extractEC2Product(file string) (index ec2ProdIndex, err error) {
 	err = json.Unmarshal([]byte(f), &index)
 	if err != nil {
 		fmt.Println(err)
-		fmt.Println("Unmarshall Error")
+		fmt.Println("Unmarshall Error, extractEC2Product")
 		return
 	}
 	return
