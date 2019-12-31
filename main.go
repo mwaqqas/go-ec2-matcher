@@ -33,7 +33,7 @@ func main() {
 		var pd map[string]priceDimensions
 		for k, v := range index.Terms.OnDemand {
 			if k == prodV.Sku {
-				refKey := prodV.Sku + ".JRTCKXETXF"
+				refKey := prodV.Sku + onDemandOfferCode
 				date = v[refKey].EffectiveDate
 				pd = v[refKey].PriceDimensions
 				for _, v := range pd {
