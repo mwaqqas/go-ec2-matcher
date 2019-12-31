@@ -91,19 +91,19 @@ type offerTerm struct {
 	Sku             string                     `json:"sku"`
 	EffectiveDate   string                     `json:"effectiveDate"`
 	PriceDimensions map[string]priceDimensions `json:"priceDimensions"`
+	TermAttributes  termAttributes             `json:"termAttributes"`
 }
 type pricePerUnit struct {
 	USD string
 }
 
 type priceDimensions struct {
-	RateCode       string         `json:"rateCode"`
-	Description    string         `json:"description"`
-	BeginRange     string         `json:"beginRange"`
-	Unit           string         `json:"unit"`
-	PricePerUnit   pricePerUnit   `json:"pricePerUnit"`
-	AppliesTo      []string       `json:"appliesTo"`
-	TermAttributes termAttributes `json:"termAttributes"`
+	RateCode     string       `json:"rateCode"`
+	Description  string       `json:"description"`
+	BeginRange   string       `json:"beginRange"`
+	Unit         string       `json:"unit"`
+	PricePerUnit pricePerUnit `json:"pricePerUnit"`
+	AppliesTo    []string     `json:"appliesTo"`
 }
 
 type termAttributes struct {
