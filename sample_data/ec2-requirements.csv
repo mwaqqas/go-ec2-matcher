@@ -1,0 +1,14 @@
+﻿WorkloadName,InstanceType,Environment,OS,PreInstalledSw,tenancy,PaymentModel,LeaseContractLength,OfferingClass,PurchaseOption
+wk01,c5.4xlarge,Prod,Linux,NA,Shared,OnDemand,,,
+wk02,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,1yr,standard,No Upfront
+wk03,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,1yr,standard,Partial Upfront
+wk04,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,1yr,standard,All Upfront
+wk05,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,3yr,standard,No Upfront
+wk06,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,3yr,standard,Partial Upfront
+wk07,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,3yr,standard,All Upfront
+wk08,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,1yr,convertible,No Upfront
+wk09,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,1yr,convertible,Partial Upfront
+wk10,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,1yr,convertible,All Upfront
+wk11,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,3yr,convertible,No Upfront
+wk12,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,3yr,convertible,Partial Upfront
+wk13,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,3yr,convertible,All Upfront
