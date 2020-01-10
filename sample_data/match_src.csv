@@ -1,0 +1,5 @@
+WorkloadName,vCPU,RAM
+wk01,2,8
+wk02,4,16
+wk03,8,16
+wk04,4,32

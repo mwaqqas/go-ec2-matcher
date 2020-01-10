@@ -1,0 +1,14 @@
+WorkloadName,InstanceType,Environment,OS,PreInstalledSw,Tenancy,PaymentModel,LeaseContractLength,OfferingClass,PurchaseOption,UpfrontFee (USD),HourlyFee (USD)
+wk01,c5.4xlarge,Prod,Linux,NA,Shared,OnDemand,,,,,0.8450000000
+wk02,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,1yr,standard,No Upfront,,0.5820000000
+wk03,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,1yr,standard,Partial Upfront,2427,0.2770000000
+wk04,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,1yr,standard,All Upfront,4758,0.0000000000
+wk05,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,3yr,standard,No Upfront,,0.4090000000
+wk06,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,3yr,standard,Partial Upfront,4973,0.1890000000
+wk07,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,3yr,standard,All Upfront,9349,0.0000000000
+wk08,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,1yr,convertible,No Upfront,,0.6690000000
+wk09,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,1yr,convertible,Partial Upfront,2791,0.3190000000
+wk10,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,1yr,convertible,All Upfront,5471,0.0000000000
+wk11,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,3yr,convertible,No Upfront,,0.4650000000
+wk12,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,3yr,convertible,Partial Upfront,5661,0.2150000000
+wk13,c5.4xlarge,Prod,Linux,NA,Shared,Reserved,3yr,convertible,All Upfront,11096,0.0000000000
