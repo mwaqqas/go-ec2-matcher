@@ -32,6 +32,7 @@ import (
 func (r *ec2Attributes) UnmarshalJSON(data []byte) error {
 	type Alias ec2Attributes
 	aux := &struct {
+		Vcpu   string `json:"vcpu"`
 		Memory string `json:"memory"`
 		*Alias
 	}{
@@ -42,6 +43,7 @@ func (r *ec2Attributes) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
+	// RAM
 	a := strings.Split(aux.Memory, " ")
 	if len(a) < 2 {
 		r.Memory.value = 0
@@ -55,6 +57,12 @@ func (r *ec2Attributes) UnmarshalJSON(data []byte) error {
 
 	r.Memory.value = val
 	r.Memory.unit = a[1]
+	if err != nil {
+		return err
+	}
+
+	// vCPU
+	r.Vcpu, err = strconv.Atoi(aux.Vcpu)
 	if err != nil {
 		return err
 	}

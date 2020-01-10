@@ -35,7 +35,7 @@ type ec2Attributes struct {
 	InstanceType                string `json:"instanceType"`
 	CurrentGeneration           string `json:"currentGeneration"`
 	InstanceFamily              string `json:"instanceFamily"`
-	Vcpu                        string `json:"vcpu"`
+	Vcpu                        int    `json:"vcpu"`
 	PhysicalProcessor           string `json:"physicalProcessor"`
 	ClockSpeed                  string `json:"clockSpeed"`
 	Memory                      RAM    `json:"memory"`
