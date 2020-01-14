@@ -85,6 +85,35 @@ type reqInstance struct {
 	CPU int
 	RAM float64
 }
+type resultInstance struct {
+	InstanceType                string
+	CurrentGeneration           string
+	InstanceFamily              string
+	Vcpu                        int
+	Memory                      RAM
+	Storage                     string
+	NetworkPerformance          string
+	ProcessorArchitecture       string
+	Tenancy                     string
+	DedicatedEbsThroughput      string
+	EnhancedNetworkingSupported string
+}
+
+func makeResultInstance(ec2attr Ec2Attributes) resultInstance {
+	return resultInstance{
+		InstanceType:                ec2attr.InstanceType,
+		CurrentGeneration:           ec2attr.CurrentGeneration,
+		InstanceFamily:              ec2attr.InstanceFamily,
+		Vcpu:                        ec2attr.Vcpu,
+		Memory:                      ec2attr.Memory,
+		Storage:                     ec2attr.Storage,
+		Tenancy:                     ec2attr.Tenancy,
+		NetworkPerformance:          ec2attr.NetworkPerformance,
+		ProcessorArchitecture:       ec2attr.ProcessorArchitecture,
+		DedicatedEbsThroughput:      ec2attr.DedicatedEbsThroughput,
+		EnhancedNetworkingSupported: ec2attr.EnhancedNetworkingSupported,
+	}
+}
 
 // ByCPUAndRAM : comment
 func ByCPUAndRAM(
@@ -94,10 +123,11 @@ func ByCPUAndRAM(
 	CPUFuzzMatchFactor int,
 	RAMFuzzMatchFactor float64,
 	roundUp bool,
-) []Product {
+	unique bool,
+) []map[string]resultInstance {
 
 	var (
-		l          []Product
+		l          []resultInstance
 		minC, maxC int
 		minR, maxR float64
 	)
@@ -112,29 +142,48 @@ func ByCPUAndRAM(
 		RAM: reqRAM,
 	}
 
-	// r := make(map[string]Product)
+	// find perfect matches
 	for _, product := range index.Products {
-		if product.Attributes.Vcpu == item.CPU {
-			l = append(l, product)
+		if (product.Attributes.Vcpu == item.CPU) &&
+			(product.Attributes.Memory.value == item.RAM) {
+			instance := makeResultInstance(product.Attributes)
+			l = append(l, instance)
 		}
 	}
+
+	// if not perfect matches found, then fuzzy match
 	if len(l) < 1 {
+		maxC = item.CPU + CPUFuzzMatchFactor
+		maxR = item.RAM + RAMFuzzMatchFactor
 		switch roundUp {
 		case false:
-			minC, maxC = item.CPU-CPUFuzzMatchFactor, item.CPU+CPUFuzzMatchFactor
-			minR, maxR = item.RAM-RAMFuzzMatchFactor, item.RAM+RAMFuzzMatchFactor
-
+			minC = item.CPU - CPUFuzzMatchFactor
+			minR = item.RAM - RAMFuzzMatchFactor
+		case true:
+			minC, minR = item.CPU, item.RAM
 		default:
-			minC, maxC = item.CPU, item.CPU+CPUFuzzMatchFactor
-			minR, maxR = item.RAM, item.RAM+RAMFuzzMatchFactor
-
+			minC, minR = item.CPU, item.RAM
 		}
 		for _, product := range index.Products {
-			if (minC <= product.Attributes.Vcpu && product.Attributes.Vcpu <= maxC) &&
-				(minR <= product.Attributes.Memory.value && product.Attributes.Memory.value <= maxR) {
-				l = append(l, product)
+			if (product.Attributes.Vcpu <= maxC && product.Attributes.Vcpu >= minC) &&
+				(product.Attributes.Memory.value <= maxR && product.Attributes.Memory.value >= minR) {
+				instance := makeResultInstance(product.Attributes)
+				l = append(l, instance)
 			}
 		}
 	}
-	return l
+
+	var ulist []map[string]resultInstance
+	keys := make(map[string]bool)
+	for _, instance := range l {
+		if _, ok := keys[instance.InstanceType]; !ok {
+			t := make(map[string]resultInstance)
+			keys[instance.InstanceType] = true
+			t[instance.InstanceType] = instance
+			ulist = append(ulist, t)
+		}
+	}
+
+	return ulist
+
 }
