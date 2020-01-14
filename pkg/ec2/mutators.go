@@ -2,6 +2,7 @@ package ec2
 
 import (
 	"encoding/json"
+	"fmt"
 	// "fmt"
 	"strconv"
 	"strings"
@@ -11,22 +12,6 @@ import (
 // 	s := strings.Split(m, " ")
 // 	f, _ = strconv.ParseFloat(s[0], 64)
 // 	return f
-// }
-
-// func (r *ec2Attributes) UnmarshalJSON() (b []byte, err error) {
-// 	err = json.Unmarshal(b, &r)
-// 	if err != nil {
-// 		return
-// 	}
-// 	strMemValue := r.Memory
-// 	m := strings.Split(strMemValue, " ")
-// 	// r.Memory, err = strconv.ParseFloat(m[0], 64)
-// 	r.Memory = m[0]
-// 	fmt.Println(r.Memory)
-// 	if err != nil {
-// 		return
-// 	}
-// 	return
 // }
 
 // UnmarshalJSON : comment
@@ -48,7 +33,7 @@ func (r *Ec2Attributes) UnmarshalJSON(data []byte) error {
 	a := strings.Split(aux.Memory, " ")
 	if len(a) < 2 {
 		r.Memory.value = 0
-		r.Memory.unit = "MiB"
+		r.Memory.unit = "GiB"
 		return nil
 	}
 	val, err := strconv.ParseFloat(a[0], 64)
@@ -68,4 +53,12 @@ func (r *Ec2Attributes) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	return nil
+}
+func (m RAM) MarshalJSON() ([]byte, error) {
+	return json.Marshal(convertRAM(m))
+}
+
+func convertRAM(r RAM) string {
+	s := fmt.Sprintf("%.2f", r.value)
+	return s + r.unit
 }
