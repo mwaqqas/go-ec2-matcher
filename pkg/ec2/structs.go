@@ -1,6 +1,6 @@
 package ec2
 
-type offer struct {
+type Offer struct {
 	OfferCode                  string `json:"offerCode"`
 	VersionIndexURL            string `json:"versionIndexUrl"`
 	CurrentVersionURL          string `json:"currentVersionUrl"`
@@ -9,26 +9,26 @@ type offer struct {
 	CurrentSavingsPlanIndexURL string `json:"currentSavingsPlanIndexUrl,omitempty"`
 }
 
-type offerIndex struct {
+type OfferIndex struct {
 	FormatVersion   string           `json:"formatVersion"`
 	Disclaimer      string           `json:"disclaimer"`
 	PublicationDate string           `json:"publicationDate"`
-	Offers          map[string]offer `json:"offers"`
+	Offers          map[string]Offer `json:"offers"`
 }
 
-type region struct {
+type Region struct {
 	RegionCode        string `json:"regionCode"`
 	CurrentVersionURL string `json:"currentVersionUrl"`
 }
 
-type regionIndex struct {
+type RegionIndex struct {
 	FormatVersion   string            `json:"formatVersion"`
 	Disclaimer      string            `json:"disclaimer"`
 	PublicationDate string            `json:"publicationDate"`
-	Regions         map[string]region `json:"regions"`
+	Regions         map[string]Region `json:"regions"`
 }
 
-type ec2Attributes struct {
+type Ec2Attributes struct {
 	Servicecode                 string `json:"servicecode"`
 	Location                    string `json:"location"`
 	LocationType                string `json:"locationType"`
@@ -67,46 +67,54 @@ type RAM struct {
 	unit  string
 }
 
-type ec2 struct {
+type Ec2 struct {
 	Sku           string        `json:"sku"`
 	ProductFamily string        `json:"productFamily"`
-	Attributes    ec2Attributes `json:"attributes"`
+	Attributes    Ec2Attributes `json:"attributes"`
 }
 
-type ec2ProdIndex struct {
-	FormatVersion   string         `json:"formatVersion"`
-	Disclaimer      string         `json:"disclaimer"`
-	PublicationDate string         `json:"publicationDate"`
-	Products        map[string]ec2 `json:"products"`
-	Terms           terms          `json:"terms"`
+// Product : comment
+type Product struct {
+	Sku           string        `json:"sku"`
+	ProductFamily string        `json:"productFamily"`
+	Attributes    Ec2Attributes `json:"attributes"`
 }
 
-type terms struct {
-	OnDemand map[string]map[string]offerTerm `json:"OnDemand"`
-	Reserved map[string]map[string]offerTerm `json:"Reserved,omitempty"`
+type Ec2ProdIndex struct {
+	FormatVersion   string             `json:"formatVersion"`
+	Disclaimer      string             `json:"disclaimer"`
+	PublicationDate string             `json:"publicationDate"`
+	Products        map[string]Product `json:"products"`
+	// Products        map[string]Ec2 `json:"products"`
+	Terms Terms `json:"terms"`
 }
 
-type offerTerm struct {
+type Terms struct {
+	OnDemand map[string]map[string]OfferTerm `json:"OnDemand"`
+	Reserved map[string]map[string]OfferTerm `json:"Reserved,omitempty"`
+}
+
+type OfferTerm struct {
 	OfferTermCode   string                     `json:"offerTermCode"`
 	Sku             string                     `json:"sku"`
 	EffectiveDate   string                     `json:"effectiveDate"`
-	PriceDimensions map[string]priceDimensions `json:"priceDimensions"`
-	TermAttributes  termAttributes             `json:"termAttributes"`
+	PriceDimensions map[string]PriceDimensions `json:"priceDimensions"`
+	TermAttributes  TermAttributes             `json:"termAttributes"`
 }
-type pricePerUnit struct {
+type PricePerUnit struct {
 	USD string
 }
 
-type priceDimensions struct {
+type PriceDimensions struct {
 	RateCode     string       `json:"rateCode"`
 	Description  string       `json:"description"`
 	BeginRange   string       `json:"beginRange"`
 	Unit         string       `json:"unit"`
-	PricePerUnit pricePerUnit `json:"pricePerUnit"`
+	PricePerUnit PricePerUnit `json:"pricePerUnit"`
 	AppliesTo    []string     `json:"appliesTo"`
 }
 
-type termAttributes struct {
+type TermAttributes struct {
 	LeaseContractLength string `json:"LeaseContractLength"`
 	OfferingClass       string `json:"OfferingClass"`
 	PurchaseOption      string `json:"PurchaseOption"`

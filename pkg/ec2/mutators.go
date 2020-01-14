@@ -29,8 +29,9 @@ import (
 // 	return
 // }
 
-func (r *ec2Attributes) UnmarshalJSON(data []byte) error {
-	type Alias ec2Attributes
+// UnmarshalJSON : comment
+func (r *Ec2Attributes) UnmarshalJSON(data []byte) error {
+	type Alias Ec2Attributes
 	aux := &struct {
 		Vcpu   string `json:"vcpu"`
 		Memory string `json:"memory"`

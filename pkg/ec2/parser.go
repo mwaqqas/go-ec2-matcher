@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 )
 
-func extractEC2Offer(file string) (o offer, err error) {
+func extractEC2Offer(file string) (o Offer, err error) {
 	// Read file
 	f, err := ioutil.ReadFile(file)
 	if err != nil {
@@ -14,7 +14,7 @@ func extractEC2Offer(file string) (o offer, err error) {
 		return
 	}
 	// parse the offer index
-	var oIndex offerIndex
+	var oIndex OfferIndex
 	err = json.Unmarshal([]byte(f), &oIndex)
 	if err != nil {
 		fmt.Println(err)
@@ -28,7 +28,7 @@ func extractEC2Offer(file string) (o offer, err error) {
 	return
 }
 
-func extractEC2Product(file string) (index ec2ProdIndex, err error) {
+func extractEC2Product(file string) (index Ec2ProdIndex, err error) {
 	f, err := ioutil.ReadFile(file)
 	if err != nil {
 		fmt.Println(err)
