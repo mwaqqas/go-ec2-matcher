@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -46,9 +47,9 @@ func main() {
 	// 	}
 	// 	fmt.Println(result)
 	case "byCPU":
-		if len(args) != 7 {
+		if len(args) != 8 {
 			fmt.Println("")
-			fmt.Printf("Error: Required 4 arguments. Provided: %d\n", len(args))
+			fmt.Printf("Error: Required 8 arguments. Provided: %d\n", len(args))
 			fmt.Println("--------")
 			fmt.Printf("Usage: go run main.go byCPU [REGION] [CPU int] [RAM float64] [CPUFuzzFactor int] [RAMFuzzFactor float64] [roundUp bool]\n")
 			log.Fatal()
@@ -71,7 +72,7 @@ func main() {
 			log.Fatal(err)
 		}
 
-		rff, err := strconv.ParseFloat(args[5], 64)
+		rff, err := strconv.ParseFloat(args[4], 64)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -81,16 +82,17 @@ func main() {
 			log.Fatal(err)
 		}
 
-		result := ec2.ByCPUAndRAM(region, reqCPU, reqRAM, cff, rff, roundUp)
+		unique, err := strconv.ParseBool(args[7])
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		for _, v := range result {
-			fmt.Println(v.Attributes.InstanceType)
-		}
+		result := ec2.ByCPUAndRAM(region, reqCPU, reqRAM, cff, rff, roundUp, unique)
 
-		fmt.Println(len(result))
+		j, err := json.Marshal(result)
+		fmt.Println(string(j))
+		// fmt.Println(result)
+
 	default:
 		log.Fatal("Case not found")
 	}
