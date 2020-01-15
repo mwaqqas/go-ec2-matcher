@@ -32,8 +32,8 @@ func (r *Ec2Attributes) UnmarshalJSON(data []byte) error {
 	// RAM
 	a := strings.Split(aux.Memory, " ")
 	if len(a) < 2 {
-		r.Memory.value = 0
-		r.Memory.unit = "GiB"
+		r.Memory.Value = 0
+		r.Memory.Unit = "GiB"
 		return nil
 	}
 	val, err := strconv.ParseFloat(a[0], 64)
@@ -41,8 +41,8 @@ func (r *Ec2Attributes) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	r.Memory.value = val
-	r.Memory.unit = a[1]
+	r.Memory.Value = val
+	r.Memory.Unit = a[1]
 	if err != nil {
 		return err
 	}
@@ -59,6 +59,6 @@ func (m RAM) MarshalJSON() ([]byte, error) {
 }
 
 func convertRAM(r RAM) string {
-	s := fmt.Sprintf("%.2f", r.value)
-	return s + r.unit
+	s := fmt.Sprintf("%.2f", r.Value)
+	return s + r.Unit
 }
