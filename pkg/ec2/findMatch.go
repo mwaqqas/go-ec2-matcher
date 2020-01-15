@@ -4,9 +4,15 @@ import (
 	"log"
 )
 
-type reqInstance struct {
-	CPU int
-	RAM float64
+type SimpleSearchReq struct {
+	Operation  string
+	SearchType string
+	Region     string
+	CPU        int
+	Memory     RAM
+	CPUFF      int
+	RAMFF      float64
+	UpsizeOnly bool
 }
 type resultInstance struct {
 	InstanceType                string
@@ -37,36 +43,22 @@ func makeResultInstance(ec2attr Ec2Attributes) resultInstance {
 }
 
 // ByCPUAndRAM : comment
-func ByCPUAndRAM(
-	region string,
-	reqCPU int,
-	reqRAM float64,
-	CPUFuzzMatchFactor int,
-	RAMFuzzMatchFactor float64,
-	roundUp bool,
-	unique bool,
-) []map[string]resultInstance {
-
+func SimpleSearch(request SimpleSearchReq) []map[string]resultInstance {
 	var (
 		l          []resultInstance
 		minC, maxC int
 		minR, maxR float64
 	)
 
-	index, err := extractEC2Product("data/ec2_offer_" + region + ".json")
+	index, err := extractEC2Product("data/ec2_offer_" + request.Region + ".json")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	item := reqInstance{
-		CPU: reqCPU,
-		RAM: reqRAM,
-	}
-
 	// find perfect matches
 	for _, product := range index.Products {
-		if (product.Attributes.Vcpu == item.CPU) &&
-			(product.Attributes.Memory.value == item.RAM) {
+		if (product.Attributes.Vcpu == request.CPU) &&
+			(product.Attributes.Memory.Value == request.Memory.Value) {
 			instance := makeResultInstance(product.Attributes)
 			l = append(l, instance)
 		}
@@ -74,20 +66,18 @@ func ByCPUAndRAM(
 
 	// if not perfect matches found, then fuzzy match
 	if len(l) < 1 {
-		maxC = item.CPU + CPUFuzzMatchFactor
-		maxR = item.RAM + RAMFuzzMatchFactor
-		switch roundUp {
+		maxC = request.CPU + request.CPUFF
+		maxR = request.Memory.Value + request.RAMFF
+		switch request.UpsizeOnly {
 		case false:
-			minC = item.CPU - CPUFuzzMatchFactor
-			minR = item.RAM - RAMFuzzMatchFactor
-		case true:
-			minC, minR = item.CPU, item.RAM
+			minC = request.CPU - request.CPUFF
+			minR = request.Memory.Value - request.RAMFF
 		default:
-			minC, minR = item.CPU, item.RAM
+			minC, minR = request.CPU, request.Memory.Value
 		}
 		for _, product := range index.Products {
 			if (product.Attributes.Vcpu <= maxC && product.Attributes.Vcpu >= minC) &&
-				(product.Attributes.Memory.value <= maxR && product.Attributes.Memory.value >= minR) {
+				(product.Attributes.Memory.Value <= maxR && product.Attributes.Memory.Value >= minR) {
 				instance := makeResultInstance(product.Attributes)
 				l = append(l, instance)
 			}
