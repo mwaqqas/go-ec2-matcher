@@ -63,8 +63,8 @@ type Ec2Attributes struct {
 
 // RAM is
 type RAM struct {
-	value float64
-	unit  string
+	Value float64
+	Unit  string
 }
 
 type Ec2 struct {
