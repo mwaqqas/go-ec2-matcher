@@ -1,0 +1,23 @@
+{
+  "Operation":"SimpleSearch",
+  "SearchType":"Simple",
+  "Region":"me-south-1",
+  "CPU":2,
+  "Memory": {
+    "Value": 4.0,
+    "Unit": "GiB"
+  },
+  "CPUFF":0,
+  "RAMFF":0.0,
+  "UpsizeOnly":true,
+  "Preferences": {
+    "Burstable": false,
+    "CurrentGen": true,
+    "Include": {
+      "InstanceClassPrefix": ["c5"]
+    },
+    "Exclude": {
+      "InstanceClassPrefix": ["m5"]
+    }
+  }
+}
