@@ -2,6 +2,7 @@ package ec2
 
 import (
 	"log"
+	"strconv"
 )
 
 // InstancePrefixList : comment
@@ -11,11 +12,10 @@ type InstancePrefixList struct {
 
 // PreferenceAttr : comment
 type PreferenceAttr struct {
-	InstanceClassPrefix string
-	Burstable           bool
-	CurrentGen          bool
-	Include             InstancePrefixList
-	Exclude             InstancePrefixList
+	Burstable  bool
+	CurrentGen bool
+	Include    InstancePrefixList
+	Exclude    InstancePrefixList
 }
 
 // SimpleSearchReq : comment
@@ -77,8 +77,10 @@ func SimpleSearch(request SimpleSearchReq) []map[string]ResultInstance {
 	for _, product := range index.Products {
 		if (product.Attributes.Vcpu == request.CPU) &&
 			(product.Attributes.Memory.Value == request.Memory.Value) {
-			instance := makeResultInstance(product.Attributes)
-			l = append(l, instance)
+			if matchedPreferences(request, product.Attributes) {
+				instance := makeResultInstance(product.Attributes)
+				l = append(l, instance)
+			}
 		}
 	}
 
@@ -96,8 +98,10 @@ func SimpleSearch(request SimpleSearchReq) []map[string]ResultInstance {
 		for _, product := range index.Products {
 			if (product.Attributes.Vcpu <= maxC && product.Attributes.Vcpu >= minC) &&
 				(product.Attributes.Memory.Value <= maxR && product.Attributes.Memory.Value >= minR) {
-				instance := makeResultInstance(product.Attributes)
-				l = append(l, instance)
+				if matchedPreferences(request, product.Attributes) {
+					instance := makeResultInstance(product.Attributes)
+					l = append(l, instance)
+				}
 			}
 		}
 	}
@@ -115,4 +119,21 @@ func SimpleSearch(request SimpleSearchReq) []map[string]ResultInstance {
 
 	return ulist
 
+}
+
+func matchedPreferences(req SimpleSearchReq, ec2Attr Ec2Attributes) bool {
+	var isMatch bool
+	isMatch = isCurrentGen(req.Preferences.CurrentGen, ec2Attr.CurrentGeneration)
+	return isMatch
+}
+
+func isCurrentGen(preference bool, actual string) bool {
+	isCurGen, err := strconv.ParseBool(actual)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if preference == true && isCurGen == true {
+		return true
+	}
+	return false
 }
