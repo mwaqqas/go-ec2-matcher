@@ -4,17 +4,35 @@ import (
 	"log"
 )
 
-type SimpleSearchReq struct {
-	Operation  string
-	SearchType string
-	Region     string
-	CPU        int
-	Memory     RAM
-	CPUFF      int
-	RAMFF      float64
-	UpsizeOnly bool
+// InstancePrefixList : comment
+type InstancePrefixList struct {
+	InstanceClassPrefix []string
 }
-type resultInstance struct {
+
+// PreferenceAttr : comment
+type PreferenceAttr struct {
+	InstanceClassPrefix string
+	Burstable           bool
+	CurrentGen          bool
+	Include             InstancePrefixList
+	Exclude             InstancePrefixList
+}
+
+// SimpleSearchReq : comment
+type SimpleSearchReq struct {
+	Operation   string
+	SearchType  string
+	Region      string
+	CPU         int
+	Memory      RAM
+	CPUFF       int
+	RAMFF       float64
+	UpsizeOnly  bool
+	Preferences PreferenceAttr
+}
+
+// ResultInstance : comment
+type ResultInstance struct {
 	InstanceType                string
 	CurrentGeneration           string
 	InstanceFamily              string
@@ -27,8 +45,8 @@ type resultInstance struct {
 	EnhancedNetworkingSupported string
 }
 
-func makeResultInstance(ec2attr Ec2Attributes) resultInstance {
-	return resultInstance{
+func makeResultInstance(ec2attr Ec2Attributes) ResultInstance {
+	return ResultInstance{
 		InstanceType:                ec2attr.InstanceType,
 		CurrentGeneration:           ec2attr.CurrentGeneration,
 		InstanceFamily:              ec2attr.InstanceFamily,
@@ -42,10 +60,10 @@ func makeResultInstance(ec2attr Ec2Attributes) resultInstance {
 	}
 }
 
-// ByCPUAndRAM : comment
-func SimpleSearch(request SimpleSearchReq) []map[string]resultInstance {
+// SimpleSearch : comment
+func SimpleSearch(request SimpleSearchReq) []map[string]ResultInstance {
 	var (
-		l          []resultInstance
+		l          []ResultInstance
 		minC, maxC int
 		minR, maxR float64
 	)
@@ -84,11 +102,11 @@ func SimpleSearch(request SimpleSearchReq) []map[string]resultInstance {
 		}
 	}
 
-	var ulist []map[string]resultInstance
+	var ulist []map[string]ResultInstance
 	keys := make(map[string]bool)
 	for _, instance := range l {
 		if _, ok := keys[instance.InstanceType]; !ok {
-			t := make(map[string]resultInstance)
+			t := make(map[string]ResultInstance)
 			keys[instance.InstanceType] = true
 			t[instance.InstanceType] = instance
 			ulist = append(ulist, t)
