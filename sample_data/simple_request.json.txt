@@ -1,3 +1,4 @@
+go run cmd/go-ec2-matcher/main.go SimpleSearch '
 {
   "Operation":"SimpleSearch",
   "SearchType":"Simple",
@@ -11,8 +12,8 @@
   "RAMFF":0.0,
   "UpsizeOnly":true,
   "Preferences": {
-    "Burstable": false,
-    "CurrentGen": true,
+    "IncludeBurstable": false,
+    "CurrentGenOnly": true,
     "Include": {
       "InstanceClassPrefix": ["c5"]
     },
@@ -21,3 +22,4 @@
     }
   }
 }
+'
