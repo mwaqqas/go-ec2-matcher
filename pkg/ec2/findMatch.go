@@ -2,7 +2,7 @@ package ec2
 
 import (
 	"log"
-	"strconv"
+	"strings"
 )
 
 // InstancePrefixList : comment
@@ -12,10 +12,10 @@ type InstancePrefixList struct {
 
 // PreferenceAttr : comment
 type PreferenceAttr struct {
-	Burstable  bool
-	CurrentGen bool
-	Include    InstancePrefixList
-	Exclude    InstancePrefixList
+	IncludeBurstable bool
+	CurrentGenOnly   bool
+	Include          InstancePrefixList
+	Exclude          InstancePrefixList
 }
 
 // SimpleSearchReq : comment
@@ -122,18 +122,53 @@ func SimpleSearch(request SimpleSearchReq) []map[string]ResultInstance {
 }
 
 func matchedPreferences(req SimpleSearchReq, ec2Attr Ec2Attributes) bool {
-	var isMatch bool
-	isMatch = isCurrentGen(req.Preferences.CurrentGen, ec2Attr.CurrentGeneration)
-	return isMatch
+	l := []bool{
+		matchGenerationPref(req.Preferences.CurrentGenOnly, ec2Attr.CurrentGeneration),
+		matchBurstablePref(req.Preferences.IncludeBurstable, ec2Attr.InstanceType),
+	}
+
+	for _, b := range l {
+		if !b {
+			return false
+		}
+	}
+	return true
 }
 
-func isCurrentGen(preference bool, actual string) bool {
-	isCurGen, err := strconv.ParseBool(actual)
-	if err != nil {
-		log.Fatal(err)
+func matchGenerationPref(desiredPref bool, recievedVal string) bool {
+	if desiredPref {
+		var recBool bool
+		switch strings.ToLower(recievedVal) {
+		case "yes":
+			recBool = true
+		case "no":
+			recBool = false
+		default:
+			log.Fatal("Unknown Value in isCurrentGen(actual). Should be either 'Yes' or 'No'.")
+		}
+		return desiredPref == recBool
 	}
-	if preference == true && isCurGen == true {
-		return true
+	// if desiredpref was false, then no check is required
+	// hence return true, as match
+	return true
+}
+
+func matchBurstablePref(desiredPref bool, instanceType string) bool {
+	// if desiredPref is set to false, i.e. exlcude burstable instances
+	// check if instance name starts with one of the elements of bFamPrefix
+	// if it does, then it is a burstable instance, and overall should return false
+	if !desiredPref {
+		var isBurstable bool
+		bFamPrefix := []string{"t"}
+		for _, prefix := range bFamPrefix {
+			if strings.HasPrefix(instanceType, prefix) {
+				isBurstable = true
+				break
+			}
+		}
+		// this will return false as isBurstable is true
+		// and desiredPref is false
+		return desiredPref == isBurstable
 	}
-	return false
+	return true
 }
