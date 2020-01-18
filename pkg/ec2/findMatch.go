@@ -5,17 +5,11 @@ import (
 	"strings"
 )
 
-// InstancePrefixList : comment
-type InstancePrefixList struct {
-	InstanceClassPrefix []string
-}
-
 // PreferenceAttr : comment
 type PreferenceAttr struct {
-	IncludeBurstable bool
-	CurrentGenOnly   bool
-	Include          InstancePrefixList
-	Exclude          InstancePrefixList
+	IncludeBurstable        bool
+	CurrentGenOnly          bool
+	ExcludeInstanceFamilies []string
 }
 
 // SimpleSearchReq : comment
@@ -125,6 +119,7 @@ func matchedPreferences(req SimpleSearchReq, ec2Attr Ec2Attributes) bool {
 	l := []bool{
 		matchGenerationPref(req.Preferences.CurrentGenOnly, ec2Attr.CurrentGeneration),
 		matchBurstablePref(req.Preferences.IncludeBurstable, ec2Attr.InstanceType),
+		matchInstanceExclusionPref(req.Preferences.ExcludeInstanceFamilies, ec2Attr.InstanceType),
 	}
 
 	for _, b := range l {
@@ -169,6 +164,18 @@ func matchBurstablePref(desiredPref bool, instanceType string) bool {
 		// this will return false as isBurstable is true
 		// and desiredPref is false
 		return desiredPref == isBurstable
+	}
+	return true
+}
+
+func matchInstanceExclusionPref(list []string, instanceType string) bool {
+	if len(list) > 0 {
+		instancePrefix := strings.Split(instanceType, ".")[0]
+		for _, prefix := range list {
+			if strings.EqualFold(prefix, instancePrefix) {
+				return false
+			}
+		}
 	}
 	return true
 }

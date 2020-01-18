@@ -12,14 +12,9 @@ go run cmd/go-ec2-matcher/main.go SimpleSearch '
   "RAMFF":0.0,
   "UpsizeOnly":true,
   "Preferences": {
-    "IncludeBurstable": false,
-    "CurrentGenOnly": true,
-    "Include": {
-      "InstanceClassPrefix": ["c5"]
-    },
-    "Exclude": {
-      "InstanceClassPrefix": ["m5"]
-    }
+    "IncludeBurstable": true,
+    "CurrentGenOnly": false,
+    "ExcludeInstanceFamilies": ["c5d"]
   }
 }
 '
