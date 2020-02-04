@@ -1,10 +1,11 @@
 package ec2
 
-import (
-	"encoding/csv"
-	"log"
-	"os"
-)
+// import (
+// 	"encoding/csv"
+// 	"log"
+// 	"os"
+// 
+// )
 
 // import (
 // 	"encoding/csv"
@@ -15,20 +16,20 @@ import (
 //
 // )
 
-type EC2Item struct {
-	WorkloadName        string
-	InstanceType        string
-	Environment         string
-	OS                  string
-	PreInstalledSw      string
-	Tenancy             string
-	PaymentModel        string
-	LeaseContractLength string
-	OfferingClass       string
-	PurchaseOption      string
-	UpfrontFee          string
-	HourlyFee           string
-}
+// type EC2Item struct {
+// 	WorkloadName        string
+// 	InstanceType        string
+// 	Environment         string
+// 	OS                  string
+// 	PreInstalledSw      string
+// 	Tenancy             string
+// 	PaymentModel        string
+// 	LeaseContractLength string
+// 	OfferingClass       string
+// 	PurchaseOption      string
+// 	UpfrontFee          string
+// 	HourlyFee           string
+// }
 
 // func GetEC2Prices(csvIn string, csvOut string, region string) (err error) {
 // 	records, err := readCSVFile(csvIn)
@@ -70,41 +71,41 @@ type EC2Item struct {
 
 // }
 
-func readCSVFile(filename string) (rows [][]string, err error) {
-	f, err := os.Open(filename)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer f.Close()
+// func readCSVFile(filename string) (rows [][]string, err error) {
+// 	f, err := os.Open(filename)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	defer f.Close()
 
-	r := csv.NewReader(f)
+// 	r := csv.NewReader(f)
 
-	// skip the header row
-	if _, err := r.Read(); err != nil {
-		log.Fatal(err)
-	}
+// 	// skip the header row
+// 	if _, err := r.Read(); err != nil {
+// 		log.Fatal(err)
+// 	}
 
-	// process the rest of the records
-	rows, err = r.ReadAll()
-	return
-}
+// 	// process the rest of the records
+// 	rows, err = r.ReadAll()
+// 	return
+// }
 
-func makeHeaderRow() EC2Item {
-	return EC2Item{
-		WorkloadName:        "WorkloadName",
-		InstanceType:        "InstanceType",
-		Environment:         "Environment",
-		OS:                  "OS",
-		PreInstalledSw:      "PreInstalledSw",
-		Tenancy:             "Tenancy",
-		PaymentModel:        "PaymentModel",
-		LeaseContractLength: "LeaseContractLength",
-		OfferingClass:       "OfferingClass",
-		PurchaseOption:      "PurchaseOption",
-		UpfrontFee:          "UpfrontFee (USD)",
-		HourlyFee:           "HourlyFee (USD)",
-	}
-}
+// func makeHeaderRow() EC2Item {
+// 	return EC2Item{
+// 		WorkloadName:        "WorkloadName",
+// 		InstanceType:        "InstanceType",
+// 		Environment:         "Environment",
+// 		OS:                  "OS",
+// 		PreInstalledSw:      "PreInstalledSw",
+// 		Tenancy:             "Tenancy",
+// 		PaymentModel:        "PaymentModel",
+// 		LeaseContractLength: "LeaseContractLength",
+// 		OfferingClass:       "OfferingClass",
+// 		PurchaseOption:      "PurchaseOption",
+// 		UpfrontFee:          "UpfrontFee (USD)",
+// 		HourlyFee:           "HourlyFee (USD)",
+// 	}
+// }
 
 // func makeItemFromCSVRow(record []string) EC2Item {
 // 	return EC2Item{
