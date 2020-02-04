@@ -26,14 +26,24 @@ func EC2MatchHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	var req ec2.SimpleSearchReq
-	err = json.Unmarshal(body, &req)
+	var request []ec2.SimpleSearchReq
+	err = json.Unmarshal(body, &request)
 	if err != nil {
 		log.Fatal(err)
 	}
-	result := ec2.SimpleSearch(req)
-	err = json.NewEncoder(w).Encode(result)
+
+	// list of maps whose keys are string
+	// the values are a list of maps whose keys are string
+	// and values are ec2.ResultInstance
+	var rs []map[string][]map[string]ec2.ResultInstance
+	for _, item := range request {
+		m := make(map[string][]map[string]ec2.ResultInstance)
+		result := ec2.SimpleSearch(item)
+		m[item.WorkloadName] = result
+		rs = append(rs, m)
+	}
+
+	err = json.NewEncoder(w).Encode(rs)
 	if err != nil {
 		log.Fatal(err)
 	}
