@@ -43,9 +43,6 @@ func (r *Ec2Attributes) UnmarshalJSON(data []byte) error {
 
 	r.Memory.Value = val
 	r.Memory.Unit = a[1]
-	if err != nil {
-		return err
-	}
 
 	// vCPU
 	r.Vcpu, err = strconv.Atoi(aux.Vcpu)
