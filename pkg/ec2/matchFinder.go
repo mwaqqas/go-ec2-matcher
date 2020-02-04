@@ -14,15 +14,14 @@ type PreferenceAttr struct {
 
 // SimpleSearchReq : comment
 type SimpleSearchReq struct {
-	Operation   string
-	SearchType  string
-	Region      string
-	CPU         int
-	Memory      RAM
-	CPUFF       int
-	RAMFF       float64
-	UpsizeOnly  bool
-	Preferences PreferenceAttr
+	WorkloadName string
+	Region       string
+	CPU          int
+	Memory       RAM
+	CPUFF        int
+	RAMFF        float64
+	UpsizeOnly   bool
+	Preferences  PreferenceAttr
 }
 
 // ResultInstance : comment
@@ -38,6 +37,8 @@ type ResultInstance struct {
 	DedicatedEbsThroughput      string
 	EnhancedNetworkingSupported string
 }
+
+type ResultSet []ResultInstance
 
 func makeResultInstance(ec2attr Ec2Attributes) ResultInstance {
 	return ResultInstance{
@@ -72,8 +73,7 @@ func SimpleSearch(request SimpleSearchReq) []map[string]ResultInstance {
 		if (product.Attributes.Vcpu == request.CPU) &&
 			(product.Attributes.Memory.Value == request.Memory.Value) {
 			if matchedPreferences(request, product.Attributes) {
-				instance := makeResultInstance(product.Attributes)
-				l = append(l, instance)
+				l = append(l, makeResultInstance(product.Attributes))
 			}
 		}
 	}
@@ -93,8 +93,7 @@ func SimpleSearch(request SimpleSearchReq) []map[string]ResultInstance {
 			if (product.Attributes.Vcpu <= maxC && product.Attributes.Vcpu >= minC) &&
 				(product.Attributes.Memory.Value <= maxR && product.Attributes.Memory.Value >= minR) {
 				if matchedPreferences(request, product.Attributes) {
-					instance := makeResultInstance(product.Attributes)
-					l = append(l, instance)
+					l = append(l, makeResultInstance(product.Attributes))
 				}
 			}
 		}
