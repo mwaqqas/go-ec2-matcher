@@ -49,3 +49,7 @@ func EC2MatchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+func EC2PriceHandler(w http.ResponseWriter, r *http.Request) {
+
+}
