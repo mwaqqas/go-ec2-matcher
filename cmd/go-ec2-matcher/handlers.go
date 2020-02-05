@@ -51,5 +51,44 @@ func EC2MatchHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func EC2PriceHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	var request ec2.PriceRequest
+	err = json.Unmarshal(body, &request)
+	if err != nil {
+		log.Fatal(err)
+	}
+	result, err := ec2.GetEC2Prices(request)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = json.NewEncoder(w).Encode(result)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func EC2OfferDownloadHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	var request ec2.OfferRequest
+	err = json.Unmarshal(body, &request)
+	if err != nil {
+		log.Fatal(err)
+	}
+	ec2.GetEC2OfferFiles(request)
+
+	err = json.NewEncoder(w).Encode("sucess")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 }
