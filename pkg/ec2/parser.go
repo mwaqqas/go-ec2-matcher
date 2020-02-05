@@ -6,27 +6,27 @@ import (
 	"io/ioutil"
 )
 
-func extractEC2Offer(file string) (o Offer, err error) {
-	// Read file
-	f, err := ioutil.ReadFile(file)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	// parse the offer index
-	var oIndex OfferIndex
-	err = json.Unmarshal([]byte(f), &oIndex)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	for k, v := range oIndex.Offers {
-		if k == "AmazonEC2" {
-			return v, err
-		}
-	}
-	return
-}
+// func extractEC2Offer(file string) (o Offer, err error) {
+// 	// Read file
+// 	f, err := ioutil.ReadFile(file)
+// 	if err != nil {
+// 		fmt.Println(err)
+// 		return
+// 	}
+// 	// parse the offer index
+// 	var oIndex OfferIndex
+// 	err = json.Unmarshal([]byte(f), &oIndex)
+// 	if err != nil {
+// 		fmt.Println(err)
+// 		return
+// 	}
+// 	for k, v := range oIndex.Offers {
+// 		if k == "AmazonEC2" {
+// 			return v, err
+// 		}
+// 	}
+// 	return
+// }
 
 func extractEC2Product(file string) (index Ec2ProdIndex, err error) {
 	f, err := ioutil.ReadFile(file)
