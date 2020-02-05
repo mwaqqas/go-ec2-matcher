@@ -1,6 +1,7 @@
 package ec2
 
 import (
+	"fmt"
 	"log"
 	"strings"
 )
@@ -62,8 +63,8 @@ func SimpleSearch(request SimpleSearchReq) []map[string]ResultInstance {
 		minC, maxC int
 		minR, maxR float64
 	)
-
-	index, err := extractEC2Product("data/ec2_offer_" + request.Region + ".json")
+	f := fmt.Sprintf("%s/%s.json", dataPath, request.Region)
+	index, err := extractEC2Product(f)
 	if err != nil {
 		log.Fatal(err)
 	}
