@@ -13,6 +13,7 @@ type Routes []Route
 
 var routes = Routes{
 	Route{"GET", "/", "Index", Index},
+	Route{"GET", "/ec2/offers/", "EC2OfferDownloader", EC2OfferDownloadHandler},
 	Route{"GET", "/ec2/matcher/", "EC2MatchFinder", EC2MatchHandler},
 	Route{"GET", "/ec2/prices/", "EC2PriceFinder", EC2PriceHandler},
 }
