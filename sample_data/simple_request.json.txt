@@ -1,7 +1,5 @@
-go run cmd/go-ec2-matcher/main.go SimpleSearch '
 {
-  "Operation":"SimpleSearch",
-  "SearchType":"Simple",
+  "WorkloadName": "TestServer01",
   "Region":"me-south-1",
   "CPU":2,
   "Memory": {
@@ -16,5 +14,32 @@ go run cmd/go-ec2-matcher/main.go SimpleSearch '
     "CurrentGenOnly": false,
     "ExcludeInstanceFamilies": ["c5d"]
   }
-}
-'
+},
+[
+  "me-south-1": [
+    {
+      "WorkloadName": "TestServer01",
+      "InstanceType": "m5.xlarge",
+      "Environment": "Production",
+      "OS": "Linux",
+      "PreInstalledSw": "NA",
+      "Tenancy": "Shared",
+      "PaymentModel": "OnDemand",
+      "LeaseContractLength": "NA",
+      "OfferingClass": "NA",
+      "PurchaseOption": "NA"
+    },
+    {
+      "WorkloadName": "TestServer02",
+      "InstanceType": "m5.xlarge",
+      "Environment": "Production",
+      "OS": "Windows",
+      "PreInstalledSw": "SQL Std",
+      "Tenancy": "Shared",
+      "PaymentModel": "Reserved",
+      "LeaseContractLength": "1yr",
+      "OfferingClass": "Standard",
+      "PurchaseOption": "No Upfront"
+    }
+  ]
+]
